@@ -7,9 +7,6 @@ pipeline{
         timeout(time: 5, unit : 'MINUTES')
         retry(3)
     }
-    environment{
-        REGION="us-east-1"
-    }
     triggers{
         cron('H */4 * * *')
         pollSCM('H * * * *')
@@ -23,11 +20,13 @@ pipeline{
         stage('Test Cases'){
             parallel{
                 stage('linux test cases'){
+                    environment{
+                        REGION="us-east-1"
+                    }
                     steps{
                         sh "echo ${REGION} first stage"
                         sh "sleep 60"
                     }
-
                 }
                 stage('windows test cases'){
                     steps{
